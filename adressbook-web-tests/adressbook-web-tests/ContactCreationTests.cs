@@ -11,21 +11,19 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests:TestBase
+    public class ContactCreationtTests:TestBase
     {
         [Test]
-        public void GroupCreationTest()
+        public void TheUntitledTestCaseTest()
         {
             OpenHomePage();
             Login(new AccountData("admin", "secret"));
-            GoToGroupPage();
-            InitNewGroupCreation();
-            GroupData group = new GroupData("aaa");
-            group.Header = "ddd"; 
-            group.Footer = "fff";
-            FillGroupForm(group);
-            SubmitGroupCreation();
-            ReturnToGroupPage();
+            AddNewContact();
+            FillContactForm(new PropertiesContact("Dilya","Shafigullina"));
+            SubmitContactCreation();
+            ReturnToHomePage();
+            logOut();
         }
+
     }
 }
