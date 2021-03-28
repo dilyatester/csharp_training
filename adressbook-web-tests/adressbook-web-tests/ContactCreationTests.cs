@@ -14,15 +14,15 @@ namespace WebAdressbookTests
     public class ContactCreationtTests:TestBase
     {
         [Test]
-        public void TheUntitledTestCaseTest()
+        public void ContactCreationtTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            AddNewContact();
-            FillContactForm(new PropertiesContact("Dilya","Shafigullina"));
-            SubmitContactCreation();
-            ReturnToHomePage();
-            logOut();
+            navigator.OpenHomePage();
+            loginHelper.Login(new AccountData("admin", "secret"));
+            contactHelper.AddNewContact();
+            contactHelper.FillContactForm(new PropertiesContact("Dilya","Shafigullina"));
+            contactHelper.SubmitContactCreation();
+            navigator.ReturnToHomePage();
+            loginHelper.logOut();
         }
 
     }

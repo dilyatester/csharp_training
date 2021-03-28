@@ -9,21 +9,18 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAdressbookTests
 {
-    class GroupRemovalTests
+    [TestFixture]
+    public class GroupRemovalTests : TestBase
     {
-        [TestFixture]
-        public class UntitledTestCase : TestBase
+        [Test]
+        public void GroupRemovalTest()
         {
-            [Test]
-            public void TheUntitledTestCaseTest()
-            {
-                OpenHomePage();
-                Login(new AccountData("admin", "secret"));
-                GoToGroupPage();
-                SelectGroup(1);
-                RemoveGroup();
-                ReturnToGroupPage();
-            }
+            navigator.OpenHomePage();
+            loginHelper.Login(new AccountData("admin", "secret"));
+            navigator.GoToGroupPage();
+            groupHelper.SelectGroup(1);
+            groupHelper.RemoveGroup();
+            navigator.ReturnToGroupPage();
         }
     }
 }
