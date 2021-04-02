@@ -12,8 +12,8 @@ namespace WebAdressbookTests
         [Test]
         public void ContactModificationTest()
         {
-            PropertiesContact newData = new PropertiesContact("Dilya2", "Shafigullina2");
-            app.Contacts.Modify(1,newData);
+            PropertiesContact newData = new PropertiesContact("Dilya3", "Shafigullina3");
+            app.Contacts.Modify(2,newData);
         }
     }
 }
