@@ -41,9 +41,8 @@ namespace WebAdressbookTests
 
         public ContactHelper Modify(int index, PropertiesContact newData)
         {
-            manager.Navigator.ReturnToHomePage();
+            manager.Navigator.OpenHomePage();
             SelectContact(index);
-            ModifyContact();
             FillContactForm(newData);
             SubmitUpdateModification();
             manager.Navigator.ReturnToHomePage();
@@ -59,8 +58,9 @@ namespace WebAdressbookTests
 
         public ContactHelper ModifyContact()
         {
-            driver.FindElement(By.XPath("//img[@alt='Details']")).Click();
-            driver.FindElement(By.Name("modifiy")).Click();
+            //driver.FindElement(By.XPath("//input[@name='update'])[2]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='update'])[2]")).Click();
+            //driver.FindElement(By.Name("modifiy")).Click();
             return this;
         }
 
@@ -97,7 +97,7 @@ namespace WebAdressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
             return this;
         }
     }
