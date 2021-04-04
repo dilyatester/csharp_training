@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using NUnit.Framework;
 
 namespace WebAdressbookTests
 {
@@ -24,17 +25,25 @@ namespace WebAdressbookTests
             AddNewContact();
             FillContactForm(propertiesContact);
             SubmitContactCreation();
-            manager.Navigator.ReturnToHomePage();
-            //manager.Auth.logOut();
+            manager.Navigator.OpenHomePage();
+            //manager.Auth.Logout();
             return this;
         }
 
-        public ContactHelper Remove(int i)
+        public ContactHelper Remove(int index)
         {
-            manager.Navigator.ReturnToHomePage();
-            SelectContact(i);
+            manager.Navigator.OpenHomePage();
+
+            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
+            if ((index == 1) && (!IsExist(index)))
+            {
+                Create(new PropertiesContact("AutoCreated", "AutoCreated"));
+            }
+
+            Assert.IsTrue(IsExist(index));
+            SelectContact(index);
             RemoveContact();
-            manager.Navigator.ReturnToHomePage();
+            manager.Navigator.OpenHomePage();
 
             return this;
         }
@@ -42,12 +51,25 @@ namespace WebAdressbookTests
         public ContactHelper Modify(int index, PropertiesContact newData)
         {
             manager.Navigator.OpenHomePage();
+
+            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
+            if ((index == 1) && (!IsExist(index)))
+            {
+                Create(new PropertiesContact("AutoCreated", "AutoCreated"));
+            }
+
+            Assert.IsTrue(IsExist(index));
             ModifyContact(index);
             FillContactForm(newData);
             SubmitUpdateModification();
-            manager.Navigator.ReturnToHomePage();
-
+            manager.Navigator.OpenHomePage();
+            
             return this;
+        }
+
+        public bool IsExist(int index)
+        {
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]"));
         }
 
         public ContactHelper SubmitUpdateModification()
@@ -70,12 +92,8 @@ namespace WebAdressbookTests
 
         public ContactHelper FillContactForm(PropertiesContact contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
+            Tipe(By.Name("firstname"), contact.Firstname);
+            Tipe(By.Name("lastname"), contact.Lastname);
             return this;
         }
 

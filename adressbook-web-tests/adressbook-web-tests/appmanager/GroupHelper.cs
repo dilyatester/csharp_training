@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using NUnit.Framework;
 
 namespace WebAdressbookTests
 {
@@ -24,33 +25,61 @@ namespace WebAdressbookTests
             InitNewGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
-            manager.Navigator.ReturnToGroupPage();
+            manager.Navigator.GoToGroupPage();
 
             return this;
         }
 
-        public GroupHelper Modify(int i, GroupData newData)
+        public GroupHelper Modify(int index, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
-            SelectGroup(i);
+
+            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
+            if ((index == 1) && (!IsExist(index)))
+            {
+                GroupData group = new GroupData("AutoCreated");
+                group.Header = "AutoCreated";
+                group.Footer = "AutoCreated";
+
+                Create(group);
+            }
+
+            Assert.IsTrue(IsExist(index));
+            SelectGroup(index);
             InitNewGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
-            manager.Navigator.ReturnToGroupPage();
+            manager.Navigator.GoToGroupPage();
 
             return this;
         }
 
- 
-
-        public GroupHelper Remove(int i)
+        public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupPage();
-            SelectGroup(i);
+
+            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
+            if ((index == 1) && (!IsExist(index)))
+            {
+                GroupData group = new GroupData("AutoCreated");
+                group.Header = "AutoCreated";
+                group.Footer = "AutoCreated";
+
+                Create(group);
+            }
+
+            Assert.IsTrue(IsExist(index));
+            SelectGroup(index);
             RemoveGroup();
-            manager.Navigator.ReturnToGroupPage();
+            manager.Navigator.GoToGroupPage();
+            
 
             return this;
+        }
+
+        public bool IsExist(int index)
+        {
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]"));
         }
 
         public GroupHelper SubmitGroupCreation()
