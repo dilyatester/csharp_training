@@ -25,7 +25,7 @@ namespace WebAdressbookTests
             FillContactForm(propertiesContact);
             SubmitContactCreation();
             manager.Navigator.ReturnToHomePage();
-            manager.Auth.logOut();
+            //manager.Auth.logOut();
             return this;
         }
 

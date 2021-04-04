@@ -19,20 +19,41 @@ namespace WebAdressbookTests
 
         public void Login(AccountData account)
         {
-            driver.FindElement(By.Name("user")).Click();
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(account.Username);
-            driver.FindElement(By.Name("pass")).Click();
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+            if (IsLoggedIn())
+            {
+                if (IsLoggedIn(account)) 
+                {
+                    return;
+                }
+
+                Logout();
+            }
+            Tipe(By.Name("user"), account.Username);
+            Tipe(By.Name("pass"), account.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
 
-
-        public void logOut()
+        public bool IsLoggedIn()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            return IsElementPresent(By.Name("logout"));
         }
+
+        public bool IsLoggedIn(AccountData account)
+        {
+            return IsLoggedIn()
+            && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
+            == "(" + account.Username + ")"; 
+        }
+
+        public void Logout()
+        {
+            if (IsLoggedIn())
+            {
+                driver.FindElement(By.LinkText("Logout")).Click();
+            }
+            
+        }
+
 
     }
 }

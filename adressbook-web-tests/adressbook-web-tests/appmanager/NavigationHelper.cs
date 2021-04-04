@@ -16,15 +16,24 @@ namespace WebAdressbookTests
         public NavigationHelper(ApplicationManager manager, string baseURL)
             : base(manager)
         {
-            this.baseURL = baseURL + "/addressbook/";
+            this.baseURL = baseURL;
         }
         public void OpenHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL);
+            if (driver.Url == baseURL + "/addressbook/") 
+            {
+                return;
+            }
+             driver.Navigate().GoToUrl(baseURL + "/addressbook/");
         }
 
         public void GoToGroupPage()
         {
+            if (driver.Url == baseURL + "/addressbook/group.php"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("groups")).Click();
         }
 
@@ -36,7 +45,7 @@ namespace WebAdressbookTests
 
         public void ReturnToGroupPage()
         {
-            driver.FindElement(By.LinkText("Logout")).Click();
+            driver.FindElement(By.LinkText("groups")).Click();
         }
     }
 
