@@ -12,7 +12,18 @@ namespace WebAdressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-            app.Contacts.Remove(1);
+            int index = 1; 
+
+            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
+            if ((index == 1) && (!app.Contacts.IsExist(index)))
+            {
+                app.Contacts.Create(new PropertiesContact("AutoCreated", "AutoCreated"));
+            }
+
+            //Если удаляем контакт, которого нет, то тест должен провалиться
+            Assert.IsTrue(app.Contacts.IsExist(index));
+
+            app.Contacts.Remove(index);
         }
     }
 }

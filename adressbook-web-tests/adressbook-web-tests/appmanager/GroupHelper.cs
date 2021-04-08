@@ -33,18 +33,6 @@ namespace WebAdressbookTests
         public GroupHelper Modify(int index, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
-
-            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
-            if ((index == 1) && (!IsExist(index)))
-            {
-                GroupData group = new GroupData("AutoCreated");
-                group.Header = "AutoCreated";
-                group.Footer = "AutoCreated";
-
-                Create(group);
-            }
-
-            Assert.IsTrue(IsExist(index));
             SelectGroup(index);
             InitNewGroupModification();
             FillGroupForm(newData);
@@ -57,23 +45,10 @@ namespace WebAdressbookTests
         public GroupHelper Remove(int index)
         {
             manager.Navigator.GoToGroupPage();
-
-            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
-            if ((index == 1) && (!IsExist(index)))
-            {
-                GroupData group = new GroupData("AutoCreated");
-                group.Header = "AutoCreated";
-                group.Footer = "AutoCreated";
-
-                Create(group);
-            }
-
-            Assert.IsTrue(IsExist(index));
             SelectGroup(index);
             RemoveGroup();
             manager.Navigator.GoToGroupPage();
             
-
             return this;
         }
 

@@ -33,14 +33,6 @@ namespace WebAdressbookTests
         public ContactHelper Remove(int index)
         {
             manager.Navigator.OpenHomePage();
-
-            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
-            if ((index == 1) && (!IsExist(index)))
-            {
-                Create(new PropertiesContact("AutoCreated", "AutoCreated"));
-            }
-
-            Assert.IsTrue(IsExist(index));
             SelectContact(index);
             RemoveContact();
             manager.Navigator.OpenHomePage();
@@ -51,14 +43,6 @@ namespace WebAdressbookTests
         public ContactHelper Modify(int index, PropertiesContact newData)
         {
             manager.Navigator.OpenHomePage();
-
-            //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
-            if ((index == 1) && (!IsExist(index)))
-            {
-                Create(new PropertiesContact("AutoCreated", "AutoCreated"));
-            }
-
-            Assert.IsTrue(IsExist(index));
             ModifyContact(index);
             FillContactForm(newData);
             SubmitUpdateModification();
