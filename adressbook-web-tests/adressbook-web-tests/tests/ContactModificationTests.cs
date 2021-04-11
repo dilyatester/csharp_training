@@ -26,6 +26,7 @@ namespace WebAdressbookTests
             Assert.IsTrue(app.Contacts.IsExist(index));
 
             List<PropertiesContact> oldContacts = app.Contacts.GetContactList();
+            PropertiesContact oldData = oldContacts[index];
             app.Contacts.Modify(index, newData);
 
             List<PropertiesContact> newContacts = app.Contacts.GetContactList();
@@ -35,6 +36,16 @@ namespace WebAdressbookTests
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+
+            //Допонительная проверка по id
+            foreach (PropertiesContact contact in newContacts)
+            {
+                if (contact.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Firstname, contact.Firstname);
+                    Assert.AreEqual(newData.Lastname, contact.Lastname);
+                }
+            }
         }
     }
 }

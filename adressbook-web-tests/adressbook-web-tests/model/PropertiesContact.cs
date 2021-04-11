@@ -8,37 +8,16 @@ namespace WebAdressbookTests
 {
     public class PropertiesContact : IEquatable<PropertiesContact>, IComparable<PropertiesContact>
     {
-        private string firstname;
-        private string lastname;
-
         public PropertiesContact(string firstname, string lastname)
         {
-            this.firstname = firstname;
-            this.lastname = lastname;
+            Firstname = firstname;
+            Lastname = lastname;
         }
-        public string Firstname
-        {
-            get
-            {
-                return firstname;
-            }
-            set
-            {
-                firstname = value;
-            }
-        }
+        public string Firstname { get; set; }
 
-        public string Lastname
-        {
-            get
-            {
-                return lastname;
-            }
-            set
-            {
-                lastname = value;
-            }
-        }
+        public string Lastname { get; set; }
+
+        public string Id { get; set; }
 
         public override string ToString()
         {

@@ -40,6 +40,11 @@ namespace WebAdressbookTests
             return this;
         }
 
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.CssSelector("tr[name = 'entry']")).Count;
+        }
+
         public ContactHelper Modify(int index, PropertiesContact newData)
         {
             manager.Navigator.OpenHomePage();
@@ -52,41 +57,49 @@ namespace WebAdressbookTests
         }
 
 
+        private List<PropertiesContact> contactCache = null;
+
         public List<PropertiesContact> GetContactList()
         {
-            List<PropertiesContact> contacts = new List<PropertiesContact>();
-
-            manager.Navigator.OpenHomePage(); 
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name = 'entry']"));
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                
-                ICollection<IWebElement> td = element.FindElements(By.CssSelector("td"));
-                contacts.Add(new PropertiesContact(td.ElementAt(2).Text, td.ElementAt(1).Text));
+                contactCache = new List<PropertiesContact>();
+                manager.Navigator.OpenHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name = 'entry']"));
+                foreach (IWebElement element in elements)
+                {
+                    ICollection<IWebElement> td = element.FindElements(By.CssSelector("td"));
+                    contactCache.Add(new PropertiesContact(td.ElementAt(2).Text, td.ElementAt(1).Text){
+                        Id = td.ElementAt(0).FindElement(By.TagName("input")).GetAttribute("id")
+                    });
+                }
             }
-            return contacts;
+            return new List<PropertiesContact>(contactCache);
         }
 
         public bool IsExist(int index)
         {
-            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index+1 + "]"));
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]"));
         }
 
         public ContactHelper SubmitUpdateModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper ModifyContact(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index+1 + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index+1) + "]")).Click();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -108,12 +121,13 @@ namespace WebAdressbookTests
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             driver.SwitchTo().Alert().Accept();
+            contactCache = null;
             return this;
         }
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index+1 + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]")).Click();
             return this;
         }
     }

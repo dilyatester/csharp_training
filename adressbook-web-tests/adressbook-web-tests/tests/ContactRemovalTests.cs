@@ -25,15 +25,21 @@ namespace WebAdressbookTests
             Assert.IsTrue(app.Contacts.IsExist(index));
 
             List<PropertiesContact> oldContacts = app.Contacts.GetContactList();
+            PropertiesContact toBeRemoved = oldContacts[index];
             app.Contacts.Remove(index);
+
+            Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
 
             List<PropertiesContact> newContacts = app.Contacts.GetContactList();
             oldContacts.RemoveAt(index);
+
             Assert.AreEqual(oldContacts, newContacts);
 
-
-
-
+            //Проверка, что не существует Id который мы уже удалили
+            foreach (PropertiesContact contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
     }
 }
