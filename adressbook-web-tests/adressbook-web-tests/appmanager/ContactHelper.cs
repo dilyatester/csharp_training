@@ -51,9 +51,25 @@ namespace WebAdressbookTests
             return this;
         }
 
+
+        public List<PropertiesContact> GetContactList()
+        {
+            List<PropertiesContact> contacts = new List<PropertiesContact>();
+
+            manager.Navigator.OpenHomePage(); 
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name = 'entry']"));
+            foreach (IWebElement element in elements)
+            {
+                
+                ICollection<IWebElement> td = element.FindElements(By.CssSelector("td"));
+                contacts.Add(new PropertiesContact(td.ElementAt(2).Text, td.ElementAt(1).Text));
+            }
+            return contacts;
+        }
+
         public bool IsExist(int index)
         {
-            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]"));
+            return IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index+1 + "]"));
         }
 
         public ContactHelper SubmitUpdateModification()
@@ -64,7 +80,7 @@ namespace WebAdressbookTests
 
         public ContactHelper ModifyContact(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + index+1 + "]")).Click();
             return this;
         }
 
@@ -97,7 +113,7 @@ namespace WebAdressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index+1 + "]")).Click();
             return this;
         }
     }

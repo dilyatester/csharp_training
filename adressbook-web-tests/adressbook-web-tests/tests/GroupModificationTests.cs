@@ -14,14 +14,14 @@ namespace WebAdressbookTests
         [Test]
         public void GroupModificationTest()
         {
-            int index = 1;
+            int index = 0;
 
             GroupData newData = new GroupData("zzz");
             newData.Header = null;
             newData.Footer = null;
 
             //Если  пользователь пытается удалять первый элемент, а его нет, то мы создадим его
-            if ((index == 1) && (!app.Groups.IsExist(index)))
+            if ((index == 0) && (!app.Groups.IsExist(index)))
             {
                 GroupData group = new GroupData("AutoCreated");
                 group.Header = "AutoCreated";
@@ -33,7 +33,15 @@ namespace WebAdressbookTests
             //Если правим группу, которой нет, то тест должен провалиться
             Assert.IsTrue(app.Groups.IsExist(index));
 
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
             app.Groups.Modify(index, newData);
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups[index].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }
