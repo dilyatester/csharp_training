@@ -35,6 +35,7 @@ namespace WebAdressbookTests
             oldContacts[index].Lastname = newData.Lastname;
             oldContacts.Sort();
             newContacts.Sort();
+
             Assert.AreEqual(oldContacts, newContacts);
 
             //Допонительная проверка по id
@@ -42,8 +43,9 @@ namespace WebAdressbookTests
             {
                 if (contact.Id == oldData.Id)
                 {
-                    Assert.AreEqual(newData.Firstname, contact.Firstname);
-                    Assert.AreEqual(newData.Lastname, contact.Lastname);
+                    Assert.IsTrue(newData.Equals(contact));
+                    //Assert.AreEqual(newData.Firstname, contact.Firstname);
+                    //Assert.AreEqual(newData.Lastname, contact.Lastname);
                 }
             }
         }

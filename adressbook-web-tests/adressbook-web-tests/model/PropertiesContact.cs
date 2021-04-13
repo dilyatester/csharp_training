@@ -35,7 +35,23 @@ namespace WebAdressbookTests
             {
                 return 1;
             }
-            return this.ToString().CompareTo(other.ToString());
+            if (Firstname == other.Firstname)
+            {
+                if (Lastname == other.Lastname)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return Lastname.CompareTo(other.Lastname); ;
+                }
+            } else
+            {
+                return Firstname.CompareTo(other.Firstname);
+            }
+
+
+            //return this.ToString().CompareTo(other.ToString());
         }
 
         public bool Equals(PropertiesContact other)
@@ -48,7 +64,7 @@ namespace WebAdressbookTests
             {
                 return true;
             }
-            return this.ToString() == other.ToString();
+            return (this.Firstname == other.Firstname) && (this.Lastname == other.Lastname);
         }
     }
 }
