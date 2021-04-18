@@ -11,6 +11,7 @@ namespace WebAdressbookTests
     {
         private string allPhones;
         private string allEmails;
+        private string allDetails;
 
         public PropertiesContact(string firstname, string lastname)
         {
@@ -20,13 +21,30 @@ namespace WebAdressbookTests
         public string Firstname { get; set; }
 
         public string Lastname { get; set; }
+        public string Middlename { get; set; }
+        public string Nickname{ get; set; }
+        public string Company { get; set; }
+        public string Title { get; set; }
+
+
         public string Adress { get; set; }
         public string HomePhone { get; set; }
         public string MobilePhone { get; set; }
         public string WorkPhone { get; set; }
+        public string Fax { get; set; }
         public string Email { get; set; }
         public string Email2 { get; set; }
         public string Email3 { get; set; }
+        public string Homepage { get; set; }
+        public string Birthday { get; set; }
+        public string Birthmonth { get; set; }
+        public string Birthyear { get; set; }
+        public string Anniversaryday { get; set; }
+        public string Anniversarymonth { get; set; }
+        public string Anniversaryyear { get; set; }
+        public string Adress2 { get; set; }
+        public string Home { get; set; }
+        public string Notes { get; set; }
 
         public string AllPhones
         {
@@ -38,7 +56,7 @@ namespace WebAdressbookTests
                 }
                 else 
                 {
-                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone) + CleanUp(Home)).Trim();
                 }
             }
             set 
@@ -63,6 +81,41 @@ namespace WebAdressbookTests
             set
             {
                 allEmails = value;
+            }
+        }
+        public string AllDetails
+        {
+            get
+            {
+                if (allDetails != null)
+                {
+                    return allDetails;
+                }
+                else
+                {
+                    return (Firstname + " " + (Middlename != ""?Middlename + " ":"")+ Lastname +"\r\n" +
+                        (Nickname != "" ? CleanUp(Nickname):"") +
+                        (Title != "" ? CleanUp(Title):"") +
+                        (Company != "" ? CleanUp(Company):"") +
+                        (Adress != "" ? CleanUp(Adress) : "") + "\r\n" +
+                        (HomePhone != "" ? "H: " + CleanUp(HomePhone) : "") +
+                        (MobilePhone != "" ? "M: " + CleanUp(MobilePhone) : "") +
+                        (WorkPhone != "" ? "W: " + CleanUp(WorkPhone) : "") +
+                        (Fax != "" ? "F: " + CleanUp(Fax) : "") + "\r\n" +
+                        AllEmails + "\r\n" +
+                        (Homepage != "" ? "Homepage:\r\n" + CleanUp(Homepage) : "") + "\r\n" +
+                        (Birthday != "-" ? "Birthday " + Birthday + ". " + Birthmonth + " "+ Birthyear : "") + "\r\n" +
+                        (Anniversaryday != "-" ? "Anniversary " + Anniversaryday + ". " + Anniversarymonth + " " + Anniversaryyear : "") + "\r\n\r\n" +
+                        (Adress2 != "" ? CleanUp(Adress2) : "") + "\r\n" +
+                        (Home != "" ? "P: " + CleanUp(Home) : "") + "\r\n" +
+                        (Notes != "" ? CleanUp(Notes) : "")
+                        ).Trim().Replace("\r\n","");
+
+                }
+            }
+            set
+            {
+                allDetails = value.Replace("\r\n", ""); ;
             }
         }
 

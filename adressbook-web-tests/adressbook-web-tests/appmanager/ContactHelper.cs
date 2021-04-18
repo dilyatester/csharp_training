@@ -40,31 +40,80 @@ namespace WebAdressbookTests
            
         }
 
+        internal PropertiesContact GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            DetailsContact(index);
+            string allDetails = driver.FindElement(By.Id("content")).Text;
+
+            return new PropertiesContact("", "")
+            {
+                AllDetails = allDetails
+            };
+
+        }
+
         public PropertiesContact GetContactInformationFromEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
             ModifyContact(index);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+            string nickname = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
+            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
 
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
 
             string email = driver.FindElement(By.Name("email")).GetAttribute("value");
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
 
+            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+
+            string birthday = (new SelectElement(driver.FindElement(By.Name("bday")))).SelectedOption.Text;
+            string birthmonth = (new SelectElement(driver.FindElement(By.Name("bmonth")))).SelectedOption.Text;
+            string birthyear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+
+            string anniversaryday = (new SelectElement(driver.FindElement(By.Name("aday")))).SelectedOption.Text;
+            string anniversarymonth = (new SelectElement(driver.FindElement(By.Name("amonth")))).SelectedOption.Text;
+            string anniversaryyear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+
+            string adress2 = driver.FindElement(By.Name("address2")).GetAttribute("value");
+            string home = driver.FindElement(By.Name("phone2")).GetAttribute("value");
+            string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
+
+
             return new PropertiesContact(firstName, lastName)
             {
+            Middlename = middlename,
+            Nickname = nickname,
+            Company = company,
+            Title = title,
             Adress = address,
             HomePhone = homePhone,
             MobilePhone = mobilePhone,
             WorkPhone = workPhone,
+            Fax = fax,
             Email = email,
             Email2 = email2,
-            Email3 = email3
+            Email3 = email3,
+            Homepage = homepage,
+            Birthday = birthday,
+            Birthmonth = birthmonth,
+            Birthyear = birthyear,
+            Anniversaryday = anniversaryday,
+            Anniversarymonth = anniversarymonth,
+            Anniversaryyear = anniversaryyear,
+            Adress2 = adress2,
+            Home = home,
+            Notes = notes
             };
 
 
@@ -142,6 +191,13 @@ namespace WebAdressbookTests
         public ContactHelper ModifyContact(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index+1) + "]")).Click();
+            contactCache = null;
+            return this;
+        }
+
+        public ContactHelper DetailsContact(int index)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
             contactCache = null;
             return this;
         }
