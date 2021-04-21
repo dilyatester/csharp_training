@@ -132,7 +132,7 @@ namespace WebAdressbookTests
 
         public override string ToString()
         {
-            return "first=" + Firstname + ",last=" + Lastname;
+            return "first=" + Firstname + "\nlast=" + Lastname;
         }
 
         public override int GetHashCode()
