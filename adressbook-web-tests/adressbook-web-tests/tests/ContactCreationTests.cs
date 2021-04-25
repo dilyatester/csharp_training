@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace WebAdressbookTests
@@ -20,9 +23,23 @@ namespace WebAdressbookTests
             return contacts;
         }
 
+        public static IEnumerable<PropertiesContact> PropertiesContactFromXmlFile()
+        {
 
+            return (List<PropertiesContact>)
+                new XmlSerializer(typeof(List<PropertiesContact>))
+                .Deserialize(new StreamReader(@"contacts.xml"));
+        }
 
-        [Test, TestCaseSource("RandomPropertiesContactProvider")]
+        public static IEnumerable<PropertiesContact> PropertiesContactFromJsonFile()
+        {
+
+            return JsonConvert.DeserializeObject<List<PropertiesContact>>(
+                File.ReadAllText(@"contacts.json"));
+
+        }
+
+        [Test, TestCaseSource("PropertiesContactFromXmlFile")]
         public void ContactCreationtTest(PropertiesContact newContact)
         {
             List<PropertiesContact> oldContacts = app.Contacts.GetContactList();

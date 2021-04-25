@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPropertiesContact xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PropertiesContact>
+    <Firstname>JN5.H\P</Firstname>
+    <Lastname>ZE!O3@IP6X</Lastname>
+    <AllPhones />
+    <AllEmails />
+    <AllDetails>JN5.H\P  ZE!O3@IP6XH: M: W: F: Homepage:Birthday .  Anniversary .  P:</AllDetails>
+  </PropertiesContact>
+  <PropertiesContact>
+    <Firstname>FM[:$4@R</Firstname>
+    <Lastname>@!-_T</Lastname>
+    <AllPhones />
+    <AllEmails />
+    <AllDetails>FM[:$4@R  @!-_TH: M: W: F: Homepage:Birthday .  Anniversary .  P:</AllDetails>
+  </PropertiesContact>
+</ArrayOfPropertiesContact>
