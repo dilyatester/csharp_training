@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class ContactCreationtTests: AuthTestBase
+    public class ContactCreationtTests: ContactTestBase
     {
         public static IEnumerable<PropertiesContact> RandomPropertiesContactProvider()
         {
@@ -42,10 +42,10 @@ namespace WebAdressbookTests
         [Test, TestCaseSource("PropertiesContactFromXmlFile")]
         public void ContactCreationtTest(PropertiesContact newContact)
         {
-            List<PropertiesContact> oldContacts = app.Contacts.GetContactList();
+            List<PropertiesContact> oldContacts = PropertiesContact.GetAll();
             app.Contacts.Create(newContact);
             
-            List<PropertiesContact> newContacts = app.Contacts.GetContactList();
+            List<PropertiesContact> newContacts = PropertiesContact.GetAll();
             oldContacts.Add(newContact);
 
             oldContacts.Sort();
@@ -55,5 +55,19 @@ namespace WebAdressbookTests
 
         }
 
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<PropertiesContact> fromUi = app.Contacts.GetContactList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<PropertiesContact> fromDb = PropertiesContact.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+        }
     }
 }

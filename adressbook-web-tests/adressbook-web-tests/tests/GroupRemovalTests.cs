@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
     {
         [Test]
         public void GroupRemovalTest()
@@ -26,14 +26,14 @@ namespace WebAdressbookTests
             //Если удаляем группу, которой нет, то тест должен провалиться
             Assert.IsTrue(app.Groups.IsExist(index));
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             GroupData toBeRemoved = oldGroups[index];
 
-            app.Groups.Remove(index);
+            app.Groups.Remove(toBeRemoved);
 
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
 
             oldGroups.RemoveAt(index);
             Assert.AreEqual(oldGroups, newGroups);

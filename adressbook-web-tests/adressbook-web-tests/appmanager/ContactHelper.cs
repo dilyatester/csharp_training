@@ -139,6 +139,16 @@ namespace WebAdressbookTests
             return this;
         }
 
+        public ContactHelper Remove(PropertiesContact contact)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContact(contact.Id);
+            RemoveContact();
+            manager.Navigator.OpenHomePage();
+
+            return this;
+        }
+
         public int GetContactCount()
         {
             return driver.FindElements(By.CssSelector("tr[name = 'entry']")).Count;
@@ -152,6 +162,18 @@ namespace WebAdressbookTests
             SubmitUpdateModification();
             manager.Navigator.OpenHomePage();
             
+            return this;
+        }
+
+
+        public ContactHelper Modify(PropertiesContact old, PropertiesContact newData)
+        {
+            manager.Navigator.OpenHomePage();
+            ModifyContact(old.Id);
+            FillContactForm(newData);
+            SubmitUpdateModification();
+            manager.Navigator.OpenHomePage();
+
             return this;
         }
 
@@ -195,6 +217,13 @@ namespace WebAdressbookTests
             return this;
         }
 
+        public ContactHelper ModifyContact(string id)
+        {
+            driver.FindElement(By.XPath("(//a[@href='edit.php?id="+ id +"'])")).Click();
+            contactCache = null;
+            return this;
+        }
+
         public ContactHelper DetailsContact(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
@@ -234,6 +263,12 @@ namespace WebAdressbookTests
         public ContactHelper SelectContact(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
 

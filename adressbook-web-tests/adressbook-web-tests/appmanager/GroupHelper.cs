@@ -55,10 +55,23 @@ namespace WebAdressbookTests
             return new List<GroupData>(groupCache);
         }
 
+       
         public GroupHelper Modify(int index, GroupData newData)
         {
             manager.Navigator.GoToGroupPage();
             SelectGroup(index);
+            InitNewGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            manager.Navigator.GoToGroupPage();
+
+            return this;
+        }
+
+        public GroupHelper Modify(GroupData old, GroupData newData)
+        {
+            manager.Navigator.GoToGroupPage();
+            SelectGroup(old.Id);
             InitNewGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
@@ -75,6 +88,16 @@ namespace WebAdressbookTests
             manager.Navigator.GoToGroupPage();
             
             return this;
+        }
+
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.GoToGroupPage();
+            SelectGroup(group.Id);
+            RemoveGroup();
+            manager.Navigator.GoToGroupPage();
+            return this;
+
         }
 
         public bool IsExist(int index)
@@ -106,6 +129,12 @@ namespace WebAdressbookTests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index+1) + "]")).Click();
+            return this;
+        }
+
+        public GroupHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='"+id+"'])")).Click();
             return this;
         }
 

@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class ContactModificationTests : AuthTestBase
+    public class ContactModificationTests : ContactTestBase
     {
         [Test]
         public void ContactModificationTest()
@@ -25,11 +25,11 @@ namespace WebAdressbookTests
             //Если правим контакт, которого нет, то тест должен провалиться
             Assert.IsTrue(app.Contacts.IsExist(index));
 
-            List<PropertiesContact> oldContacts = app.Contacts.GetContactList();
+            List<PropertiesContact> oldContacts = PropertiesContact.GetAll();
             PropertiesContact oldData = oldContacts[index];
-            app.Contacts.Modify(index, newData);
+            app.Contacts.Modify(oldData, newData);
 
-            List<PropertiesContact> newContacts = app.Contacts.GetContactList();
+            List<PropertiesContact> newContacts = PropertiesContact.GetAll();
 
             oldContacts[index].Firstname = newData.Firstname;
             oldContacts[index].Lastname = newData.Lastname;

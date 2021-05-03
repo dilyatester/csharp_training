@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : AuthTestBase
+    public class ContactRemovalTests : ContactTestBase
     {
         [Test]
         public void ContactRemovalTest()
@@ -24,13 +24,13 @@ namespace WebAdressbookTests
             //Если удаляем контакт, которого нет, то тест должен провалиться
             Assert.IsTrue(app.Contacts.IsExist(index));
 
-            List<PropertiesContact> oldContacts = app.Contacts.GetContactList();
+            List<PropertiesContact> oldContacts = PropertiesContact.GetAll();
             PropertiesContact toBeRemoved = oldContacts[index];
-            app.Contacts.Remove(index);
+            app.Contacts.Remove(toBeRemoved);
 
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
 
-            List<PropertiesContact> newContacts = app.Contacts.GetContactList();
+            List<PropertiesContact> newContacts = PropertiesContact.GetAll();
             oldContacts.RemoveAt(index);
 
             Assert.AreEqual(oldContacts, newContacts);
