@@ -14,5 +14,8 @@ namespace WebAdressbookTests
         public ITable<GroupData> Groups { get { return GetTable<GroupData>(); } }
 
         public ITable<PropertiesContact> Contacts { get { return GetTable<PropertiesContact>(); } }
+
+        public ITable<GroupContactRelation> GCR { get { return GetTable<GroupContactRelation>(); } }
+
     }
 }

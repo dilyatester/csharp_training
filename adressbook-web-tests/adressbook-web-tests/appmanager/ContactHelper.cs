@@ -40,6 +40,51 @@ namespace WebAdressbookTests
            
         }
 
+        internal void RemoveContactFromGroup(PropertiesContact contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            SetGroupFilter(group);
+            SelectContact(contact.Id);
+            CommitRemovingContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(8)).Until(d => d.FindElements(By.CssSelector("div.msbox")) != null);
+        }
+
+        public void AddContactToGroup(PropertiesContact contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(8)).Until(d => d.FindElements(By.CssSelector("div.msbox")) != null);
+
+        }
+
+        private void SetGroupFilter(GroupData group)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(group.Name);
+        }
+
+        private void CommitRemovingContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        public void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        public void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
         internal PropertiesContact GetContactInformationFromDetails(int index)
         {
             manager.Navigator.OpenHomePage();
