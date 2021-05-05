@@ -12,8 +12,28 @@ namespace WebAdressbookTests
         [Test]
         public void TestAddingContactToGroup() 
         {
-            GroupData group = GroupData.GetAll()[0];
+            List<GroupData> groups = GroupData.GetAll();
+
+            //Если групп нет, то создадим хотя бы одну
+            if (groups.Count < 1)
+            {
+                app.Groups.Create(new GroupData("TestGroupAuto"));
+
+                groups = GroupData.GetAll();
+            } 
+                
+            GroupData group = groups[0]; //получаем первую группу 
+
             List<PropertiesContact> oldList = group.GetContacts();
+            IEnumerable<PropertiesContact> contactsNotInGroup = PropertiesContact.GetAll().Except(oldList);
+
+            //Если контактов, которых нет в группе нет, то создадим новый
+            if (contactsNotInGroup.Count() < 1)
+            {
+                app.Contacts.Create(new PropertiesContact("TestUserAuto", "TestUserAuto"));
+            }
+
+            //Получаем все контакты
             PropertiesContact contact = PropertiesContact.GetAll().Except(oldList).First();
 
             app.Contacts.AddContactToGroup(contact, group);

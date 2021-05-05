@@ -12,9 +12,35 @@ namespace WebAdressbookTests
         [Test]
         public void TestRemovingContactFromGroup()
         {
-            GroupData group = GroupData.GetAll()[0];
+            List<GroupData> groups = GroupData.GetAll();
+            //Если групп нет, то создадим хотя бы одну и контакт в ней
+            if (groups.Count < 1)
+            {
+                GroupData newGroup = new GroupData("TestGroupAuto");
+                PropertiesContact newContact = new PropertiesContact("TestUserAuto", "TestUserAuto");
+
+                app.Groups.Create(newGroup);
+                if (PropertiesContact.GetAll().Count < 1)
+                    app.Contacts.Create(newContact);
+                app.Contacts.AddContactToGroup(PropertiesContact.GetAll().First(), newGroup);
+
+                groups = GroupData.GetAll();
+            }
+
+            GroupData group = groups[0];
+
             List<PropertiesContact> oldList = group.GetContacts();
-            PropertiesContact contact = oldList.First();
+
+            //Если контакта в группе нет, то добавим его/создадим
+            if (oldList.Count < 1)
+            {
+                PropertiesContact newContact = new PropertiesContact("TestUserAuto", "TestUserAuto");
+                if (PropertiesContact.GetAll().Count < 1)
+                    app.Contacts.Create(newContact);
+                app.Contacts.AddContactToGroup(PropertiesContact.GetAll().First(), group);
+            }    
+
+            PropertiesContact contact = group.GetContacts().First();
 
             app.Contacts.RemoveContactFromGroup(contact, group);
 
